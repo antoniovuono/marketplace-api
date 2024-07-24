@@ -1,5 +1,7 @@
 import { User } from '@prisma/client'
 import { UsersRepository } from '../repositories/users-repository'
+import { ResourceAlreadyExists } from './errors/resource-already-exists-error'
+import { PasswordSizeError } from './errors/password-size-error'
 
 interface CreateUserUseCaseRequest {
   name: string
@@ -26,10 +28,9 @@ export class CreateUserUseCase {
     const emailAlreadyRegistered = await this.userRepository.findByEmail(email)
     const phoneAlreadyRegistered = await this.userRepository.findByPhone(phone)
 
-    if (emailAlreadyRegistered) throw new Error('Email already registered')
-    if (phoneAlreadyRegistered) throw new Error('Phone already registered')
-    if (password.length < 8)
-      throw new Error('Password must have at least 8 characters')
+    if (emailAlreadyRegistered) throw new ResourceAlreadyExists('Email')
+    if (phoneAlreadyRegistered) throw new ResourceAlreadyExists('Phone')
+    if (password.length < 8) throw new PasswordSizeError()
 
     const user = await this.userRepository.create({
       name,
