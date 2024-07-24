@@ -21,14 +21,22 @@ export class CreateUserUseCase {
     email,
     phone,
     password,
-    avatar
+    avatar,
   }: CreateUserUseCaseRequest): Promise<CreateUserUseCaseResponse> {
+    const emailAlreadyRegistered = await this.userRepository.findByEmail(email)
+    const phoneAlreadyRegistered = await this.userRepository.findByPhone(phone)
+
+    if (emailAlreadyRegistered) throw new Error('Email already registered')
+    if (phoneAlreadyRegistered) throw new Error('Phone already registered')
+    if (password.length < 8)
+      throw new Error('Password must have at least 8 characters')
+
     const user = await this.userRepository.create({
       name,
       email,
       phone,
       password,
-      avatar
+      avatar,
     })
 
     return { user }
