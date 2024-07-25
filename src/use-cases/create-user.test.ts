@@ -1,5 +1,7 @@
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { CreateUserUseCase } from './create-user'
+import { ResourceAlreadyExists } from './errors/resource-already-exists-error'
+import { PasswordSizeError } from './errors/password-size-error'
 
 let usersRepository: InMemoryUsersRepository
 let createUserUseCase: CreateUserUseCase
@@ -22,15 +24,55 @@ describe('Create User Use Case', () => {
     expect(user.id).toEqual(expect.any(String))
   })
 
-  it.todo(
-    'should not be able create a new user with an already registered email',
-  )
+  it('should not be able create a new user with an already registered email', async () => {
+    await createUserUseCase.execute({
+      name: 'John Doe',
+      email: 'jhon@doe.com',
+      phone: '41999998888',
+      password: 'password',
+      avatar: null,
+    })
 
-  it.todo(
-    'should not be able create a new user with an already registered phone',
-  )
+    await expect(async () => {
+      await createUserUseCase.execute({
+        name: 'John Doe',
+        email: 'jhon@doe.com',
+        phone: '41999998888',
+        password: 'password',
+        avatar: null,
+      })
+    }).rejects.toBeInstanceOf(ResourceAlreadyExists)
+  })
 
-  it.todo(
-    'should not be able create a new user with a password less than 8 characters',
-  )
+  it('should not be able create a new user with an already registered phone', async () => {
+    await createUserUseCase.execute({
+      name: 'John Doe',
+      email: 'jhon@doe.com',
+      phone: '41999998888',
+      password: 'password',
+      avatar: null,
+    })
+
+    await expect(async () => {
+      await createUserUseCase.execute({
+        name: 'John Doe',
+        email: 'jhon2@doe.com',
+        phone: '41999998888',
+        password: 'password',
+        avatar: null,
+      })
+    }).rejects.toBeInstanceOf(ResourceAlreadyExists)
+  })
+
+  it('should not be able create a new user with a password less than 8 characters', async () => {
+    await expect(async () => {
+      await createUserUseCase.execute({
+        name: 'John Doe',
+        email: 'jhon@doe.com',
+        phone: '41999998888',
+        password: '1234',
+        avatar: null,
+      })
+    }).rejects.toBeInstanceOf(PasswordSizeError)
+  })
 })
