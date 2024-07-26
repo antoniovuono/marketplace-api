@@ -1,5 +1,5 @@
 import { User } from '@prisma/client'
-import { UsersRepository } from '../repositories/users-repository'
+import { UserRepository } from '../repositories/user-repository'
 import { ResourceAlreadyExists } from './errors/resource-already-exists-error'
 import { PasswordSizeError } from './errors/password-size-error'
 
@@ -16,7 +16,7 @@ interface CreateUserUseCaseResponse {
 }
 
 export class CreateUserUseCase {
-  constructor(private userRepository: UsersRepository) {}
+  constructor(private userRepository: UserRepository) {}
 
   async execute({
     name,

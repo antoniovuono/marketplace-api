@@ -1,15 +1,15 @@
-import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository'
 import { CreateUserUseCase } from './create-user'
 import { ResourceAlreadyExists } from './errors/resource-already-exists-error'
 import { PasswordSizeError } from './errors/password-size-error'
 
-let usersRepository: InMemoryUsersRepository
+let UserRepository: InMemoryUserRepository
 let createUserUseCase: CreateUserUseCase
 
 describe('Create User Use Case', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryUsersRepository()
-    createUserUseCase = new CreateUserUseCase(usersRepository)
+    UserRepository = new InMemoryUserRepository()
+    createUserUseCase = new CreateUserUseCase(UserRepository)
   })
 
   it('should be able create a new user', async () => {
