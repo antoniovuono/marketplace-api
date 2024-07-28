@@ -3,13 +3,15 @@ import { UserRepository } from '@/repositories/user-repository'
 import { Sale } from '@prisma/client'
 import { ResourceNotFound } from './errors/resource-not-found'
 
+type IPaymentMethods = 'BOLETO' | 'PIX' | 'DINHEIRO' | 'CARTAO' | 'DEPOSITO'
+
 interface CreateSaleUseCaseRequest {
   title: string
   description: string
   condition: 'NOVO' | 'USADO'
   price: number
   acceptSwap: boolean
-  paymentMethods: 'BOLETO' | 'PIX' | 'DINHEIRO' | 'CARTAO' | 'DEPOSITO'
+  paymentMethods: IPaymentMethods[]
   userId: string
 }
 

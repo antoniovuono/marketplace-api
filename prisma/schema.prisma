@@ -35,17 +35,17 @@ model User {
 }
 
 model Sale {
-  id              String         @id @default(uuid())
+  id              String           @id @default(uuid())
   user_id         String
   title           String
   description     String
   condition       Condition
   price           Float
   accept_swap     Boolean
-  is_active       Boolean        @default(true)
-  payment_methods PaymentMethods
-  created_at      DateTime       @default(now())
-  updated_at      DateTime       @default(now())
+  is_active       Boolean          @default(true)
+  payment_methods PaymentMethods[]
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @default(now())
 
   user  User    @relation(fields: [user_id], references: [id])
   Photo Photo[]

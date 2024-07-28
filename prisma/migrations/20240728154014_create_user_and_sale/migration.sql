@@ -14,7 +14,7 @@ CREATE TABLE "sales" (
     "price" DOUBLE PRECISION NOT NULL,
     "accept_swap" BOOLEAN NOT NULL,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
-    "payment_methods" "PaymentMethods" NOT NULL,
+    "payment_methods" "PaymentMethods"[],
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
