@@ -1,6 +1,7 @@
 import { InMemorySaleRepository } from '@/repositories/in-memory/in-memory-sale-repository'
 import { CreateSaleUseCase } from './create-sale'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository'
+import { ResourceNotFound } from './errors/resource-not-found'
 
 let createSaleUseCase: CreateSaleUseCase
 let salesRepository: InMemorySaleRepository
@@ -14,7 +15,7 @@ describe('Create Sale Use Case', () => {
   })
 
   it('should be able to create a new sale', async () => {
-    await usersRepository.create({
+    const { id: userId } = await usersRepository.create({
       id: '1',
       name: 'John Doe',
       email: 'jhon@doe.com',
@@ -30,10 +31,22 @@ describe('Create Sale Use Case', () => {
       price: 100,
       acceptSwap: true,
       paymentMethods: ['BOLETO', 'PIX', 'DINHEIRO', 'CARTAO', 'DEPOSITO'],
-      userId: '1',
+      userId,
     })
 
     expect(sale.id).toEqual(expect.any(String))
   })
-  it.todo('should not be able to create a new sale with a non-existent user')
+  it('should not be able to create a new sale with a non-existent user', async () => {
+    await expect(async () => {
+      await createSaleUseCase.execute({
+        title: 'Title',
+        description: 'Description',
+        condition: 'NOVO',
+        price: 100,
+        acceptSwap: true,
+        paymentMethods: ['BOLETO', 'PIX', 'DINHEIRO', 'CARTAO', 'DEPOSITO'],
+        userId: 'non-existent-user-id',
+      })
+    }).rejects.toBeInstanceOf(ResourceNotFound)
+  })
 })
