@@ -3,13 +3,13 @@ import { CreateUserUseCase } from './create-user'
 import { ResourceAlreadyExists } from './errors/resource-already-exists-error'
 import { PasswordSizeError } from './errors/password-size-error'
 
-let UserRepository: InMemoryUserRepository
+let usersRepository: InMemoryUserRepository
 let createUserUseCase: CreateUserUseCase
 
 describe('Create User Use Case', () => {
   beforeEach(() => {
-    UserRepository = new InMemoryUserRepository()
-    createUserUseCase = new CreateUserUseCase(UserRepository)
+    usersRepository = new InMemoryUserRepository()
+    createUserUseCase = new CreateUserUseCase(usersRepository)
   })
 
   it('should be able create a new user', async () => {
