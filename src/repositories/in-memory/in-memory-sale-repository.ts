@@ -26,4 +26,8 @@ export class InMemorySaleRepository implements SaleRepository {
 
     return sale
   }
+
+  async getMany(page: number): Promise<Sale[]> {
+    return this.items.slice((page - 1) * 20, page * 20)
+  }
 }
