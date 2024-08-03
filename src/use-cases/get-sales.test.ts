@@ -2,9 +2,9 @@ import { InMemorySaleRepository } from '@/repositories/in-memory/in-memory-sale-
 import { GetSalesUseCase } from './get-sales'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository'
 
+let getSalesUseCase: GetSalesUseCase
 let usersRepository: InMemoryUserRepository
 let salesRepository: InMemorySaleRepository
-let getSalesUseCase: GetSalesUseCase
 
 describe('Get Sales Use Case', () => {
   beforeEach(() => {

@@ -1,18 +1,16 @@
 import { InMemorySalePhotosRepository } from '@/repositories/in-memory/in-memory-sale-photos-repository'
 import { InMemorySaleRepository } from '@/repositories/in-memory/in-memory-sale-repository'
-import { SalePhotosRepository } from '@/repositories/sale-photos-repository'
-import { SaleRepository } from '@/repositories/sale-repository'
 import { AddPhotosToSaleUseCase } from './add-photos-to-sale'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository'
 import { ResourceNotFound } from './errors/resource-not-found'
 import { MaxPhotosLimitExceededError } from './errors/max-photos-limit-exceeded-error'
 
-let salePhotosRepository: SalePhotosRepository
-let saleRepository: SaleRepository
 let addPhotosToSaleUseCase: AddPhotosToSaleUseCase
+let salePhotosRepository: InMemorySalePhotosRepository
+let saleRepository: InMemorySaleRepository
 let usersRepository: InMemoryUserRepository
 
-describe('Add Photos to Sale', () => {
+describe('Add Photos to Sale Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUserRepository()
     salePhotosRepository = new InMemorySalePhotosRepository()
