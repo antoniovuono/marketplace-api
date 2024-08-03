@@ -27,7 +27,7 @@ export class AddPhotosToSaleUseCase {
     groupPhotos,
     saleId,
   }: AddPhotosToSaleRequest): Promise<AddPhotosToSaleResponse> {
-    const saleExists = this.salesRepository.findById(saleId)
+    const saleExists = await this.salesRepository.findById(saleId)
 
     if (!saleExists) throw new ResourceNotFound('Sale')
 
