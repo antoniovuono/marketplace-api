@@ -1,6 +1,6 @@
 import { Prisma, Sale } from '@prisma/client'
 import { SaleRepository } from '../sale-repository'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 
 export class InMemorySaleRepository implements SaleRepository {
   public items: Sale[] = []
@@ -29,5 +29,9 @@ export class InMemorySaleRepository implements SaleRepository {
 
   async getMany(page: number): Promise<Sale[]> {
     return this.items.slice((page - 1) * 20, page * 20)
+  }
+
+  async findById(id: string): Promise<Sale | null> {
+    return this.items.find((sale) => sale.id === id) ?? null
   }
 }
