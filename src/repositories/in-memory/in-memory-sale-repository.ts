@@ -1,4 +1,4 @@
-import { Prisma, Sale } from '@prisma/client'
+import { Condition, Prisma, Sale } from '@prisma/client'
 import { SaleRepository } from '../sale-repository'
 import { randomUUID } from 'node:crypto'
 
@@ -33,5 +33,31 @@ export class InMemorySaleRepository implements SaleRepository {
 
   async findById(id: string): Promise<Sale | null> {
     return this.items.find((sale) => sale.id === id) ?? null
+  }
+
+  async edit(id: string, data: Prisma.SaleUncheckedUpdateInput): Promise<Sale> {
+    const saleIndex = this.items.findIndex((sale) => sale.id === id)
+
+    const sale = this.items[saleIndex]
+
+    const updatedSale = {
+      id: sale.id,
+      user_id: sale.user_id,
+      title: String(data.title) ?? sale.title,
+      description: String(data.description) ?? sale.description,
+      condition: (data.condition as Condition) ?? sale.condition,
+      price: Number(data.price) ?? sale.price,
+      accept_swap: Boolean(data.accept_swap) ?? sale.accept_swap,
+      payment_methods: Array.isArray(data.payment_methods)
+        ? data.payment_methods
+        : sale.payment_methods,
+      is_active: sale.is_active,
+      created_at: sale.created_at,
+      updated_at: new Date(),
+    }
+
+    this.items[saleIndex] = updatedSale
+
+    return updatedSale
   }
 }
