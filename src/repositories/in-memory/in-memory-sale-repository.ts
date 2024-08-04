@@ -86,6 +86,8 @@ export class InMemorySaleRepository implements SaleRepository {
       is_active: false,
     }
 
+    this.items[saleIndex] = deactivateSale
+
     return deactivateSale
   }
 }
