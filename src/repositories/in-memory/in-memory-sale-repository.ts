@@ -60,4 +60,32 @@ export class InMemorySaleRepository implements SaleRepository {
 
     return updatedSale
   }
+
+  async activate(id: string): Promise<Sale> {
+    const saleIndex = this.items.findIndex((sale) => sale.id === id)
+
+    const sale = this.items[saleIndex]
+
+    const activateSale = {
+      ...sale,
+      is_active: true,
+    }
+
+    this.items[saleIndex] = activateSale
+
+    return activateSale
+  }
+
+  async deactivate(id: string): Promise<Sale> {
+    const saleIndex = this.items.findIndex((sale) => sale.id === id)
+
+    const sale = this.items[saleIndex]
+
+    const deactivateSale = {
+      ...sale,
+      is_active: false,
+    }
+
+    return deactivateSale
+  }
 }
