@@ -90,4 +90,10 @@ export class InMemorySaleRepository implements SaleRepository {
 
     return deactivateSale
   }
+
+  async delete(id: string): Promise<void> {
+    const saleIndex = this.items.findIndex((sale) => sale.id === id)
+
+    this.items.splice(saleIndex, 1)
+  }
 }

@@ -7,4 +7,5 @@ export interface SaleRepository {
   edit(id: string, data: Prisma.SaleUncheckedUpdateInput): Promise<Sale>
   activate(id: string): Promise<Sale>
   deactivate(id: string): Promise<Sale>
+  delete(id: string): Promise<void>
 }
