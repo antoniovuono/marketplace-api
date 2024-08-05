@@ -98,4 +98,10 @@ export class InMemorySaleRepository implements SaleRepository {
 
     return activatedSales.slice((page - 1) * 20, page * 20)
   }
+
+  async findManyByUser(userId: string, page: number): Promise<Sale[]> {
+    const userSales = this.items.filter((sale) => sale.user_id === userId)
+
+    return userSales.slice((page - 1) * 20, page * 20)
+  }
 }

@@ -8,4 +8,5 @@ export interface SaleRepository {
   deactivate(id: string): Promise<Sale>
   delete(id: string): Promise<void>
   findManyByActive(page: number): Promise<Sale[]>
+  findManyByUser(userId: string, page: number): Promise<Sale[]>
 }
