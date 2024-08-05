@@ -9,7 +9,7 @@ interface FindManyByActiveResponse {
   sales: Sale[]
 }
 
-export class FindManyByActiveUseCase {
+export class FindManySalesByActiveUseCase {
   constructor(private saleRepository: SaleRepository) {}
 
   async execute({

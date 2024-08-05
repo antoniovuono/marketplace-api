@@ -1,8 +1,8 @@
 import { InMemorySaleRepository } from '@/repositories/in-memory/in-memory-sale-repository'
-import { FindManyByActiveUseCase } from './find-many-by-active'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository'
+import { FindManySalesByActiveUseCase } from './find-many-sales-by-active'
 
-let findManyByActiveUseCase: FindManyByActiveUseCase
+let findManySalesByActiveUseCase: FindManySalesByActiveUseCase
 let saleRepository: InMemorySaleRepository
 let usersRepository: InMemoryUserRepository
 
@@ -10,7 +10,9 @@ describe('Find Many By Active Use Case', () => {
   beforeEach(() => {
     saleRepository = new InMemorySaleRepository()
     usersRepository = new InMemoryUserRepository()
-    findManyByActiveUseCase = new FindManyByActiveUseCase(saleRepository)
+    findManySalesByActiveUseCase = new FindManySalesByActiveUseCase(
+      saleRepository,
+    )
   })
 
   it('should return a list of active sales', async () => {
@@ -47,7 +49,7 @@ describe('Find Many By Active Use Case', () => {
       })
     }
 
-    const { sales } = await findManyByActiveUseCase.execute({ page: 1 })
+    const { sales } = await findManySalesByActiveUseCase.execute({ page: 1 })
 
     expect(sales.length).toEqual(3)
   })
@@ -86,7 +88,7 @@ describe('Find Many By Active Use Case', () => {
       })
     }
 
-    const { sales } = await findManyByActiveUseCase.execute({ page: 2 })
+    const { sales } = await findManySalesByActiveUseCase.execute({ page: 2 })
 
     expect(sales.length).toEqual(2)
   })
