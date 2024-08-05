@@ -7,4 +7,5 @@ export interface SaleRepository {
   activate(id: string): Promise<Sale>
   deactivate(id: string): Promise<Sale>
   delete(id: string): Promise<void>
+  findMany(page: number): Promise<Sale[]>
 }

@@ -92,4 +92,10 @@ export class InMemorySaleRepository implements SaleRepository {
 
     this.items.splice(saleIndex, 1)
   }
+
+  async findManyByActive(page: number): Promise<Sale[]> {
+    const activatedSales = this.items.filter((sale) => sale.is_active === true)
+
+    return activatedSales.slice((page - 1) * 20, page * 20)
+  }
 }
