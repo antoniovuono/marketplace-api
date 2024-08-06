@@ -104,4 +104,12 @@ export class InMemorySaleRepository implements SaleRepository {
 
     return userSales.slice((page - 1) * 20, page * 20)
   }
+
+  async findManyByActiveAndUser(userId: string, page: number): Promise<Sale[]> {
+    const sales = this.items.filter(
+      (sale) => sale.user_id === userId && sale.is_active === true,
+    )
+
+    return sales.slice((page - 1) * 20, page * 20)
+  }
 }
