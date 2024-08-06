@@ -2,6 +2,7 @@ import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-
 import { CreateUserUseCase } from './create-user'
 import { ResourceAlreadyExists } from './errors/resource-already-exists-error'
 import { PasswordSizeError } from './errors/password-size-error'
+import { compare } from 'bcryptjs'
 
 let createUserUseCase: CreateUserUseCase
 let usersRepository: InMemoryUserRepository
@@ -22,6 +23,20 @@ describe('Create User Use Case', () => {
     })
 
     expect(user.id).toEqual(expect.any(String))
+  })
+
+  it('should hash user password upon registration', async () => {
+    const { user } = await createUserUseCase.execute({
+      name: 'John Doe',
+      email: 'jhon@doe.com',
+      phone: '41999998888',
+      password: 'password',
+      avatar: null,
+    })
+
+    const passwordIsHashed = await compare('password', user.password)
+
+    expect(passwordIsHashed).toBeTruthy()
   })
 
   it('should not be able create a new user with an already registered email', async () => {

@@ -2,6 +2,7 @@ import { User } from '@prisma/client'
 import { UserRepository } from '../repositories/user-repository'
 import { ResourceAlreadyExists } from './errors/resource-already-exists-error'
 import { PasswordSizeError } from './errors/password-size-error'
+import { hash } from 'bcryptjs'
 
 interface CreateUserUseCaseRequest {
   name: string
@@ -32,11 +33,13 @@ export class CreateUserUseCase {
     if (phoneAlreadyRegistered) throw new ResourceAlreadyExists('Phone')
     if (password.length < 8) throw new PasswordSizeError()
 
+    const hashedPassword = await hash(password, 6)
+
     const user = await this.userRepository.create({
       name,
       email,
       phone,
-      password,
+      password: hashedPassword,
       avatar,
     })
 
