@@ -131,7 +131,13 @@ export class InMemorySaleRepository implements SaleRepository {
       if (paymentMethods !== undefined) {
         matches =
           matches &&
-          paymentMethods.some((pm) => sale.payment_methods.includes(pm))
+          paymentMethods.length === sale.payment_methods.length &&
+          paymentMethods.every((method) =>
+            sale.payment_methods.includes(method),
+          ) &&
+          sale.payment_methods.every((method) =>
+            paymentMethods.includes(method),
+          )
       }
 
       if (acceptSwap !== undefined) {
