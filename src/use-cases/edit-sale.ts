@@ -1,17 +1,17 @@
 import { SaleRepository } from '@/repositories/sale-repository'
 import { Sale } from '@prisma/client'
 import { ResourceNotFound } from './errors/resource-not-found'
-
-type IPaymentMethods = 'BOLETO' | 'PIX' | 'DINHEIRO' | 'CARTAO' | 'DEPOSITO'
+import { TCondition } from '@/dtos/condition-dto'
+import { TPaymentMethods } from '@/dtos/payment-methods-dto'
 
 interface EditSaleUseCaseRequest {
   saleId: string
   title: string
   description: string
-  condition: 'NOVO' | 'USADO'
+  condition: TCondition
   price: number
   acceptSwap: boolean
-  paymentMethods: IPaymentMethods[]
+  paymentMethods: TPaymentMethods[]
 }
 
 interface EditSaleUseCaseResponse {
