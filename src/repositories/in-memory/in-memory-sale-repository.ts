@@ -15,7 +15,7 @@ export class InMemorySaleRepository implements SaleRepository {
       condition: data.condition,
       price: data.price,
       accept_swap: data.accept_swap,
-      is_active: Boolean(data.is_active),
+      is_active: data.is_active ?? true,
       payment_methods: Array.isArray(data.payment_methods)
         ? data.payment_methods
         : [],

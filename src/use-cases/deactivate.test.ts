@@ -18,7 +18,6 @@ describe('Activate Sale Use Case', () => {
       condition: 'NOVO',
       price: 100,
       accept_swap: false,
-      is_active: true,
       payment_methods: ['BOLETO', 'PIX', 'DINHEIRO', 'CARTAO', 'DEPOSITO'],
       user_id: '1',
     })

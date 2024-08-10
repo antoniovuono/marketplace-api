@@ -44,7 +44,6 @@ describe('Find Many By Active Use Case', () => {
         description: 'Description',
         condition: 'NOVO',
         price: 100,
-        is_active: true,
         accept_swap: true,
         payment_methods: ['BOLETO', 'PIX', 'DINHEIRO', 'CARTAO', 'DEPOSITO'],
         user_id: userId,
