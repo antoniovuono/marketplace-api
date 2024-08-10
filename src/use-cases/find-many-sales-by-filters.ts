@@ -4,9 +4,10 @@ import { SaleRepository } from '@/repositories/sale-repository'
 import { Sale } from '@prisma/client'
 
 interface FindManySalesByFiltersUseCase {
+  page: number
   condition?: TCondition
-  payment_methods?: TPaymentMethods[]
-  accept_swap?: boolean
+  paymentMethods?: TPaymentMethods[]
+  acceptSwap?: boolean
 }
 
 interface FindManySalesByFiltersUseCaseResponse {
@@ -15,4 +16,20 @@ interface FindManySalesByFiltersUseCaseResponse {
 
 export class FindManySalesUseCase {
   constructor(private salesRepository: SaleRepository) {}
+
+  async execute({
+    page,
+    condition,
+    paymentMethods,
+    acceptSwap,
+  }: FindManySalesByFiltersUseCase): Promise<FindManySalesByFiltersUseCaseResponse> {
+    const sales = await this.salesRepository.findManyByFilters(
+      page,
+      condition,
+      paymentMethods,
+      acceptSwap,
+    )
+
+    return { sales }
+  }
 }
