@@ -1,3 +1,5 @@
+import { TCondition } from '@/dtos/condition-dto'
+import { TPaymentMethods } from '@/dtos/payment-methods-dto'
 import { Prisma, Sale } from '@prisma/client'
 
 export interface SaleRepository {
@@ -10,4 +12,10 @@ export interface SaleRepository {
   findManyByActive(page: number): Promise<Sale[]>
   findManyByActiveAndUser(userId: string, page: number): Promise<Sale[]>
   findManyByUser(userId: string, page: number): Promise<Sale[]>
+  findManyByFilters(
+    page: number,
+    condition?: TCondition,
+    paymentMethods?: TPaymentMethods[],
+    acceptSwap?: boolean,
+  ): Promise<Sale[]>
 }

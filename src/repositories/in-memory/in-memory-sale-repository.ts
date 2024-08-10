@@ -1,6 +1,8 @@
 import { Condition, Prisma, Sale } from '@prisma/client'
 import { SaleRepository } from '../sale-repository'
 import { randomUUID } from 'node:crypto'
+import { TCondition } from '@/dtos/condition-dto'
+import { TPaymentMethods } from '@/dtos/payment-methods-dto'
 
 export class InMemorySaleRepository implements SaleRepository {
   public items: Sale[] = []
@@ -109,6 +111,35 @@ export class InMemorySaleRepository implements SaleRepository {
     const sales = this.items.filter(
       (sale) => sale.user_id === userId && sale.is_active === true,
     )
+
+    return sales.slice((page - 1) * 20, page * 20)
+  }
+
+  async findManyByFilters(
+    page: number,
+    condition?: TCondition,
+    paymentMethods?: TPaymentMethods[],
+    acceptSwap?: boolean,
+  ): Promise<Sale[]> {
+    const sales = this.items.filter((sale) => {
+      let matches = sale.is_active
+
+      if (condition !== undefined) {
+        matches = matches && sale.condition === condition
+      }
+
+      if (paymentMethods !== undefined) {
+        matches =
+          matches &&
+          paymentMethods.some((pm) => sale.payment_methods.includes(pm))
+      }
+
+      if (acceptSwap !== undefined) {
+        matches = matches && sale.accept_swap === acceptSwap
+      }
+
+      return matches
+    })
 
     return sales.slice((page - 1) * 20, page * 20)
   }
