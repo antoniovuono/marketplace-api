@@ -14,7 +14,7 @@ interface FindManySalesByFiltersUseCaseResponse {
   sales: Sale[]
 }
 
-export class FindManySalesUseCase {
+export class FindManySalesByFilterUseCase {
   constructor(private salesRepository: SaleRepository) {}
 
   async execute({
