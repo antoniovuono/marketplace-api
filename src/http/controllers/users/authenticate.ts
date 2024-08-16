@@ -24,8 +24,6 @@ export async function authenticate(
       { sign: { sub: user.id } },
     )
 
-    console.log(jwtToken)
-
     return reply
       .status(200)
       .send({ message: 'User authenticated successfully', token: jwtToken })
