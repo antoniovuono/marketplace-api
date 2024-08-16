@@ -1,16 +1,16 @@
-import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository'
+import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository'
 import { CreateUserUseCase } from '@/use-cases/create-user'
 import { ResourceAlreadyExists } from '@/use-cases/errors/resource-already-exists-error'
-import { createBodySchema } from '@/validations/create-user-schema'
+import { createUserBodySchema } from '@/validations/params/create-user-body-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   try {
-    const { name, email, phone, password } = createBodySchema.parse(
+    const { name, email, phone, password } = createUserBodySchema.parse(
       request.body,
     )
 
-    const usersRepository = new InMemoryUserRepository()
+    const usersRepository = new PrismaUsersRepository()
     const createUserUseCase = new CreateUserUseCase(usersRepository)
 
     await createUserUseCase.execute({
@@ -26,7 +26,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     if (error instanceof ResourceAlreadyExists) {
       return reply.status(409).send({ message: error.message })
     }
-  }
 
-  return reply.status(201).send()
+    throw error
+  }
 }
