@@ -1,9 +1,9 @@
 import { makeFindManyActiveSalesUseCase } from '@/use-cases/factories/make-find-many-active-sales'
-import { getActivesQuerySchema } from '@/validations/params/get-actives-query-schema'
+import { paginationParamsSchema } from '@/validations/params/pagination-params-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function getActives(request: FastifyRequest, reply: FastifyReply) {
-  const { page } = getActivesQuerySchema.parse(request.query)
+  const { page } = paginationParamsSchema.parse(request.query)
 
   const findManyActiveSalesUseCase = makeFindManyActiveSalesUseCase()
 
