@@ -3,7 +3,7 @@ import { makeFindManyByUserUseCase } from '@/use-cases/factories/make-find-many-
 import { paginationParamsSchema } from '@/validations/params/pagination-params-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function getByUser(request: FastifyRequest, reply: FastifyReply) {
+export async function listByUser(request: FastifyRequest, reply: FastifyReply) {
   try {
     const { page } = paginationParamsSchema.parse(request.query)
 

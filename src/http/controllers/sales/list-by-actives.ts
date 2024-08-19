@@ -2,7 +2,10 @@ import { makeFindManyActiveSalesUseCase } from '@/use-cases/factories/make-find-
 import { paginationParamsSchema } from '@/validations/params/pagination-params-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function getActives(request: FastifyRequest, reply: FastifyReply) {
+export async function listByActives(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const { page } = paginationParamsSchema.parse(request.query)
 
   const findManyActiveSalesUseCase = makeFindManyActiveSalesUseCase()
