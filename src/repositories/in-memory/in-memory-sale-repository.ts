@@ -33,6 +33,14 @@ export class InMemorySaleRepository implements SaleRepository {
     return this.items.find((sale) => sale.id === id) ?? null
   }
 
+  async findByUser(saleId: string, userId: string): Promise<Sale | null> {
+    return (
+      this.items.find(
+        (sale) => sale.user_id === userId && sale.id === saleId,
+      ) ?? null
+    )
+  }
+
   async edit(id: string, data: Prisma.SaleUncheckedUpdateInput): Promise<Sale> {
     const saleIndex = this.items.findIndex((sale) => sale.id === id)
 

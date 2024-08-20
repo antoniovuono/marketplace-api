@@ -17,6 +17,13 @@ export class PrismaSalesRepository implements SaleRepository {
     return sale
   }
 
+  async findByUser(saleId: string, userId: string): Promise<Sale | null> {
+    const sale = await prisma.sale.findUnique({
+      where: { id: saleId, user_id: userId },
+    })
+    return sale
+  }
+
   async edit(id: string, data: Prisma.SaleUncheckedUpdateInput): Promise<Sale> {
     const sale = await prisma.sale.update({ where: { id }, data })
 
