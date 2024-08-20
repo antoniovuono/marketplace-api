@@ -12,10 +12,7 @@ describe('Activate Sale Use Case', () => {
   beforeEach(() => {
     salesRepository = new InMemorySaleRepository()
     usersRepository = new InMemoryUserRepository()
-    activateSaleUseCase = new ActivateSaleUseCase(
-      salesRepository,
-      usersRepository,
-    )
+    activateSaleUseCase = new ActivateSaleUseCase(salesRepository)
   })
 
   it('should be able to activate a sale', async () => {

@@ -1,7 +1,6 @@
 import { SaleRepository } from '@/repositories/sale-repository'
 import { Sale } from '@prisma/client'
 import { ResourceNotFound } from './errors/resource-not-found'
-import { UserRepository } from '@/repositories/user-repository'
 import { NotAuthorizedError } from './errors/not-authorized-error'
 
 interface ActivateSaleUseCaseRequest {
@@ -14,10 +13,7 @@ interface ActivateSaleUseCaseResponse {
 }
 
 export class ActivateSaleUseCase {
-  constructor(
-    private saleRepository: SaleRepository,
-    private usersRepository: UserRepository,
-  ) {}
+  constructor(private saleRepository: SaleRepository) {}
 
   async execute({
     saleId,
