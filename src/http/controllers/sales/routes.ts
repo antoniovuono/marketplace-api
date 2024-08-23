@@ -6,6 +6,7 @@ import { listByUser } from './list-by-user'
 import { activate } from './activate'
 import { deactivate } from './deactivate'
 import { listActivesByUser } from './list-actives-by-user'
+import { edit } from './edit'
 
 export async function salesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', jwtVerifyOnRoutes)
@@ -16,4 +17,5 @@ export async function salesRoutes(app: FastifyInstance) {
   app.get('/sales/my-sales/actives', listActivesByUser)
   app.patch('/sales/:saleId/activate', activate)
   app.patch('/sales/:saleId/deactivate', deactivate)
+  app.patch('/sales/:saleId/edit', edit)
 }
