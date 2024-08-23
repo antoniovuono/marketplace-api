@@ -6,12 +6,12 @@ import { TPaymentMethods } from '@/dtos/payment-methods-dto'
 
 interface EditSaleUseCaseRequest {
   saleId: string
-  title: string
-  description: string
-  condition: TCondition
-  price: number
-  acceptSwap: boolean
-  paymentMethods: TPaymentMethods[]
+  title: string | undefined
+  description: string | undefined
+  condition: TCondition | undefined
+  price: number | undefined
+  acceptSwap: boolean | undefined
+  paymentMethods: TPaymentMethods[] | undefined
 }
 
 interface EditSaleUseCaseResponse {
