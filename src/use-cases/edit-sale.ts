@@ -3,9 +3,11 @@ import { Sale } from '@prisma/client'
 import { ResourceNotFound } from './errors/resource-not-found'
 import { TCondition } from '@/dtos/condition-dto'
 import { TPaymentMethods } from '@/dtos/payment-methods-dto'
+import { NotAuthorizedError } from './errors/not-authorized-error'
 
 interface EditSaleUseCaseRequest {
   saleId: string
+  userId: string
   title: string | undefined
   description: string | undefined
   condition: TCondition | undefined
@@ -23,6 +25,7 @@ export class EditSaleUseCase {
 
   async execute({
     saleId,
+    userId,
     title,
     description,
     condition,
@@ -31,8 +34,13 @@ export class EditSaleUseCase {
     paymentMethods,
   }: EditSaleUseCaseRequest): Promise<EditSaleUseCaseResponse> {
     const sale = await this.saleRepository.findById(saleId)
+    const saleBelongToUser = await this.saleRepository.findByUser(
+      saleId,
+      userId,
+    )
 
     if (!sale) throw new ResourceNotFound('Sale')
+    if (!saleBelongToUser) throw new NotAuthorizedError()
 
     const editedSale = await this.saleRepository.edit(saleId, {
       title,

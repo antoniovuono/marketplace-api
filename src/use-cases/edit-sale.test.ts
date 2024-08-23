@@ -2,6 +2,7 @@ import { InMemorySaleRepository } from '@/repositories/in-memory/in-memory-sale-
 import { EditSaleUseCase } from './edit-sale'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository'
 import { ResourceNotFound } from './errors/resource-not-found'
+import { NotAuthorizedError } from './errors/not-authorized-error'
 
 let editSaleUseCase: EditSaleUseCase
 let saleRepository: InMemorySaleRepository
@@ -36,6 +37,7 @@ describe('Edit Sale Use Case', () => {
 
     const { sale } = await editSaleUseCase.execute({
       saleId,
+      userId,
       title: 'Title Edited',
       description: 'Description Edited',
       condition: 'USADO',
@@ -78,6 +80,7 @@ describe('Edit Sale Use Case', () => {
 
     const { sale } = await editSaleUseCase.execute({
       saleId,
+      userId,
       title: 'Title',
       description: 'Description',
       condition: 'NOVO',
@@ -97,6 +100,7 @@ describe('Edit Sale Use Case', () => {
     await expect(async () => {
       await editSaleUseCase.execute({
         saleId: 'non-existent-sale-id',
+        userId: '1',
         title: 'Title',
         description: 'Description',
         condition: 'NOVO',
@@ -105,5 +109,39 @@ describe('Edit Sale Use Case', () => {
         paymentMethods: ['BOLETO', 'PIX'],
       })
     }).rejects.toBeInstanceOf(ResourceNotFound)
+  })
+
+  it('should not be able to edit a sale that does not belong to the user', async () => {
+    const { id: userId } = await usersRepository.create({
+      id: '1',
+      name: 'John Doe',
+      email: 'jhon@doe.com',
+      phone: '41999998888',
+      password: 'password',
+      avatar: null,
+    })
+
+    const { id: saleId } = await saleRepository.create({
+      title: 'Title',
+      description: 'Description',
+      condition: 'NOVO',
+      price: 100,
+      accept_swap: true,
+      payment_methods: ['BOLETO', 'PIX', 'DINHEIRO', 'CARTAO', 'DEPOSITO'],
+      user_id: userId,
+    })
+
+    await expect(async () => {
+      await editSaleUseCase.execute({
+        saleId,
+        userId: '2',
+        title: 'Title',
+        description: 'Description',
+        condition: 'NOVO',
+        price: 100,
+        acceptSwap: true,
+        paymentMethods: ['BOLETO', 'PIX'],
+      })
+    }).rejects.toBeInstanceOf(NotAuthorizedError)
   })
 })

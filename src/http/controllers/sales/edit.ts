@@ -1,3 +1,4 @@
+import { NotAuthorizedError } from '@/use-cases/errors/not-authorized-error'
 import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 import { makeEditSaleUseCase } from '@/use-cases/factories/make-edit-sale-use-case'
 import { editSaleBodySchema } from '@/validations/params/edit-sale-body-schema'
@@ -15,6 +16,7 @@ export async function edit(request: FastifyRequest, reply: FastifyReply) {
 
     const { sale } = await editSaleUseCase.execute({
       saleId,
+      userId: request.user.sub,
       title,
       description,
       condition,
@@ -27,6 +29,10 @@ export async function edit(request: FastifyRequest, reply: FastifyReply) {
   } catch (error) {
     if (error instanceof ResourceNotFound) {
       return reply.status(404).send({ message: error.message })
+    }
+
+    if (error instanceof NotAuthorizedError) {
+      return reply.status(403).send({ message: error.message })
     }
 
     throw error
