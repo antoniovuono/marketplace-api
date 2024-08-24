@@ -8,12 +8,14 @@ import { deactivate } from './deactivate'
 import { listActivesByUser } from './list-actives-by-user'
 import { edit } from './edit'
 import { remove } from './remove'
+import { filterActives } from './filter-actives'
 
 export async function salesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', jwtVerifyOnRoutes)
 
   app.post('/sales', create)
   app.get('/sales', listByActives)
+  app.get('/sales/filter', filterActives)
   app.get('/sales/my-sales', listByUser)
   app.get('/sales/my-sales/actives', listActivesByUser)
   app.patch('/sales/:saleId/activate', activate)

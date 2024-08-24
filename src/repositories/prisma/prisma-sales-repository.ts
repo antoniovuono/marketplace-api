@@ -96,10 +96,10 @@ export class PrismaSalesRepository implements SaleRepository {
       where: {
         is_active: true,
         condition,
-        payment_methods: {
-          hasSome: paymentMethods,
-        },
         accept_swap: acceptSwap,
+        payment_methods: {
+          equals: paymentMethods,
+        },
       },
       take: 20,
       skip: (page - 1) * 20,
