@@ -3,10 +3,11 @@ import { create } from './create'
 import { profile } from './profile'
 import { authenticate } from './authenticate'
 import { jwtVerifyOnRoutes } from '@/http/middlewares/jwt-verify-on-routes'
+import { updateAvatar } from './update-avatar'
 
 export async function userRoutes(app: FastifyInstance) {
   app.post('/users', create)
-  app.get('/users/me', { onRequest: [jwtVerifyOnRoutes] }, profile)
-
   app.post('/users/session', authenticate)
+  app.get('/users/me', { onRequest: [jwtVerifyOnRoutes] }, profile)
+  app.patch('/users/avatar', { onRequest: [jwtVerifyOnRoutes] }, updateAvatar)
 }

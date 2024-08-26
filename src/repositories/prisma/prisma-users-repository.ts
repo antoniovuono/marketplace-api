@@ -26,4 +26,17 @@ export class PrismaUsersRepository implements UserRepository {
 
     return user
   }
+
+  async updateAvatar(file: string, id: string): Promise<User> {
+    const user = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        avatar: file,
+      },
+    })
+
+    return user
+  }
 }

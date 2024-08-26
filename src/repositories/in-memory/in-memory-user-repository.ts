@@ -33,4 +33,19 @@ export class InMemoryUserRepository implements UserRepository {
   async findById(id: string): Promise<User | null> {
     return this.items.find((user) => user.id === id) ?? null
   }
+
+  async updateAvatar(file: string, id: string): Promise<User> {
+    const userIndex = this.items.findIndex((user) => user.id === id)
+
+    const user = this.items[userIndex]
+
+    const userUpdated = {
+      ...user,
+      avatar: file,
+    }
+
+    this.items[userIndex] = userUpdated
+
+    return userUpdated
+  }
 }

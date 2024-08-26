@@ -4,9 +4,15 @@ import fastifyJwt from '@fastify/jwt'
 import { env } from './env'
 import { ZodError } from 'zod'
 import { salesRoutes } from './http/controllers/sales/routes'
+import multipart from '@fastify/multipart'
 
 export const app = fastify()
 
+app.register(multipart, {
+  limits: {
+    fieldSize: 2000000,
+  },
+})
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {
