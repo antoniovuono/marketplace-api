@@ -1,7 +1,7 @@
 import { NotAuthorizedError } from '@/use-cases/errors/not-authorized-error'
 import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 import { makeActivateSaleUseCase } from '@/use-cases/factories/make-activate-sale-use-case'
-import { saleIdParamsSchema } from '@/validations/params/sale-id-params-schema'
+import { saleIdParamsSchema } from '@/utils/validations/params/sale-id-params-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function activate(request: FastifyRequest, reply: FastifyReply) {

@@ -1,5 +1,5 @@
 import { makeFilterActivesSalesUseCase } from '@/use-cases/factories/make-filter-actives-sales-use-case'
-import { filterSalesQuerySchema } from '@/validations/params/filter-sales-query-schema'
+import { filterSalesQuerySchema } from '@/utils/validations/params/filter-sales-query-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function filterActives(

@@ -1,6 +1,6 @@
 import { ResourceAlreadyExists } from '@/use-cases/errors/resource-already-exists-error'
 import { makeCreateUserUseCase } from '@/use-cases/factories/make-create-user-use-case'
-import { createUserBodySchema } from '@/validations/params/create-user-body-schema'
+import { createUserBodySchema } from '@/utils/validations/params/create-user-body-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {

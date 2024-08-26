@@ -1,6 +1,6 @@
 import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 import { makeCreateSaleUseCase } from '@/use-cases/factories/make-create-sale-use-case'
-import { createSaleBodySchema } from '@/validations/params/create-sale-body-schema'
+import { createSaleBodySchema } from '@/utils/validations/params/create-sale-body-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {

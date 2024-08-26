@@ -1,6 +1,6 @@
 import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials-error'
 import { makeAuthenticateUserUseCase } from '@/use-cases/factories/make-authenticate-user-use-case'
-import { authenticateBodySchema } from '@/validations/params/authenticate-body-schema'
+import { authenticateBodySchema } from '@/utils/validations/params/authenticate-body-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function authenticate(

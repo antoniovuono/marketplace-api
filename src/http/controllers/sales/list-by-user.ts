@@ -1,6 +1,6 @@
 import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 import { makeFindManyByUserUseCase } from '@/use-cases/factories/make-find-many-by-user-use-case'
-import { paginationParamsSchema } from '@/validations/params/pagination-params-schema'
+import { paginationParamsSchema } from '@/utils/validations/params/pagination-params-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function listByUser(request: FastifyRequest, reply: FastifyReply) {
