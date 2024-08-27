@@ -2,9 +2,8 @@ import { UserRepository } from '@/repositories/user-repository'
 import { User } from '@prisma/client'
 import { ResourceNotFound } from './errors/resource-not-found'
 import { MultipartFile } from '@fastify/multipart'
-import path from 'path'
-import fs from 'fs'
 import { EmptyFieldError } from './errors/empty-field-error'
+import { DiskStorage } from '@/utils/storage/DiskStorage'
 
 interface UpdateUserAvatarUseCaseRequest {
   userId: string
@@ -27,19 +26,11 @@ export class UpdateUserAvatarUseCase {
     if (!user) throw new ResourceNotFound('User')
     if (!file || !file.filename) throw new EmptyFieldError()
 
-    const uploadPath = path.resolve(__dirname, '../../tmp/avatar')
-
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true })
-    }
-
-    const filePath = path.join(uploadPath, file.filename)
-
-    const writeStream = fs.createWriteStream(filePath)
-    file.file.pipe(writeStream)
+    const upload = new DiskStorage(file)
+    const filePath = upload.save()
 
     if (user.avatar) {
-      fs.unlinkSync(user.avatar)
+      upload.delete(user.avatar)
     }
 
     const updatedUser = await this.usersRepository.updateAvatar(
