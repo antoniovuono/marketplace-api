@@ -5,7 +5,6 @@ import { DiskStorage } from '@/utils/storage/DiskStorage'
 import { ResourceNotFound } from './errors/resource-not-found'
 import { NotAuthorizedError } from './errors/not-authorized-error'
 import { SalePhotosRepository } from '@/repositories/sale-photos-repository'
-import { Photo } from '@prisma/client'
 import { MaxPhotosLimitExceededError } from './errors/max-photos-limit-exceeded-error'
 
 interface ReadableState {
@@ -23,10 +22,6 @@ interface UpdateSalePicturesUseCaseRequest {
   files: MultipartFile[] | any
 }
 
-interface UpdateSalePicturesUseCaseResponse {
-  photos: Photo[]
-}
-
 export class UpdateSalePicturesUseCase {
   constructor(
     private salesRepository: SaleRepository,
@@ -37,7 +32,7 @@ export class UpdateSalePicturesUseCase {
     userId,
     saleId,
     files,
-  }: UpdateSalePicturesUseCaseRequest): Promise<UpdateSalePicturesUseCaseResponse> {
+  }: UpdateSalePicturesUseCaseRequest): Promise<void> {
     const sale = await this.salesRepository.findById(saleId)
     const saleBelongToUser = await this.salesRepository.findByUser(
       saleId,
@@ -76,7 +71,5 @@ export class UpdateSalePicturesUseCase {
 
       counter++
     }
-
-    return { photos: salesPerPhotos }
   }
 }
