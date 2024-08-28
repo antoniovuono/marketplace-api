@@ -48,7 +48,6 @@ export class UpdateSalePicturesUseCase {
 
     if (!sale) throw new ResourceNotFound('Sale')
     if (!saleBelongToUser) throw new NotAuthorizedError()
-    console.log('debug', salesPerPhotos.length)
     if (salesPerPhotos.length >= 4) throw new MaxPhotosLimitExceededError()
 
     const maxFiles = 4
