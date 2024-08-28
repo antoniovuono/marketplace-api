@@ -16,7 +16,7 @@ app.register(multipart, {
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {
-    expiresIn: '1h',
+    expiresIn: '7d',
   },
 })
 

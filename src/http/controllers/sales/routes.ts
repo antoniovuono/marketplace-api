@@ -9,6 +9,7 @@ import { listActivesByUser } from './list-actives-by-user'
 import { edit } from './edit'
 import { remove } from './remove'
 import { filterActives } from './filter-actives'
+import { updatePictures } from './update-pictures'
 
 export async function salesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', jwtVerifyOnRoutes)
@@ -21,5 +22,6 @@ export async function salesRoutes(app: FastifyInstance) {
   app.patch('/sales/:saleId/activate', activate)
   app.patch('/sales/:saleId/deactivate', deactivate)
   app.patch('/sales/:saleId/edit', edit)
+  app.patch('/sales/:saleId/add-pictures', updatePictures)
   app.delete('/sales/:saleId', remove)
 }

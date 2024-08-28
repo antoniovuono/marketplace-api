@@ -2,13 +2,18 @@ import path from 'path'
 import fs from 'fs'
 import { MultipartFile } from '@fastify/multipart'
 
+type StorageType = 'avatar' | 'sales'
+
 export class DiskStorage {
   private uploadPath: string
   private filePath: string
   private file: MultipartFile
 
-  constructor(file: MultipartFile) {
-    this.uploadPath = path.resolve(__dirname, '../../../tmp/avatar')
+  constructor(file: MultipartFile, type: StorageType) {
+    this.uploadPath = path.resolve(
+      __dirname,
+      type === 'avatar' ? '../../../tmp/avatar' : '../../../tmp/sales',
+    )
 
     if (!fs.existsSync(this.uploadPath)) {
       fs.mkdirSync(this.uploadPath, { recursive: true })

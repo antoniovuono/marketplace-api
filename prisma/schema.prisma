@@ -30,6 +30,7 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   Sale       Sale[]
+  Photo      Photo[]
 
   @@map("users")
 }
@@ -55,8 +56,12 @@ model Sale {
 
 model Photo {
   id         String   @id @default(uuid())
+  user_id    String
   sale_id    String
   url        String
   sale       Sale     @relation(fields: [sale_id], references: [id])
+  user       User     @relation(fields: [user_id], references: [id])
   created_at DateTime @default(now())
+
+  @@map("photos")
 }

@@ -26,7 +26,7 @@ export class UpdateUserAvatarUseCase {
     if (!user) throw new ResourceNotFound('User')
     if (!file || !file.filename) throw new EmptyFieldError()
 
-    const upload = new DiskStorage(file)
+    const upload = new DiskStorage(file, 'avatar')
     const filePath = upload.save()
 
     if (user.avatar) {

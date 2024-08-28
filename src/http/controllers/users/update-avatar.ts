@@ -1,7 +1,6 @@
-import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository'
 import { EmptyFieldError } from '@/use-cases/errors/empty-field-error'
 import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
-import { UpdateUserAvatarUseCase } from '@/use-cases/update-user-avatar'
+import { makeUpdateUserAvatarUseCase } from '@/use-cases/factories/make-update-user-avatar-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function updateAvatar(
@@ -11,8 +10,7 @@ export async function updateAvatar(
   try {
     const file = await request.file()
 
-    const usersRepository = new PrismaUsersRepository()
-    const updateAvatarUserUseCase = new UpdateUserAvatarUseCase(usersRepository)
+    const updateAvatarUserUseCase = makeUpdateUserAvatarUseCase()
 
     await updateAvatarUserUseCase.execute({
       file,
