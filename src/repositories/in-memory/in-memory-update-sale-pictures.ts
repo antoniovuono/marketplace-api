@@ -1,13 +1,13 @@
-import { Photo, Prisma } from '@prisma/client'
-import { randomUUID } from 'crypto'
+import { Prisma, Photo } from '@prisma/client'
 import { SalePhotosRepository } from '../sale-photos-repository'
+import { randomUUID } from 'node:crypto'
 
-export class InMemorySalePhotosRepository implements SalePhotosRepository {
-  public item: Photo[] = []
+export class InMemoryUpdateSalePictures implements SalePhotosRepository {
+  public items: Photo[] = []
 
   async addPhotos(data: Prisma.PhotoCreateManyInput[]): Promise<void> {
-    data.forEach((photo) => {
-      const registerPhoto: Photo = {
+    data.map((photo) => {
+      const newPhoto: Photo = {
         id: randomUUID(),
         user_id: photo.user_id,
         sale_id: photo.sale_id,
@@ -15,11 +15,11 @@ export class InMemorySalePhotosRepository implements SalePhotosRepository {
         created_at: new Date(),
       }
 
-      this.item.push(registerPhoto)
+      return this.items.push(newPhoto)
     })
   }
 
   async findPhotosBySaleId(saleId: string): Promise<Photo[]> {
-    return this.item.filter((photos) => photos.sale_id === saleId)
+    return this.items.filter((photo) => photo.sale_id === saleId)
   }
 }

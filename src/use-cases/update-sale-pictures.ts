@@ -43,9 +43,8 @@ export class UpdateSalePicturesUseCase {
 
     if (!sale) throw new ResourceNotFound('Sale')
     if (!saleBelongToUser) throw new NotAuthorizedError()
-    if (salesPerPhotos.length >= 4) throw new MaxPhotosLimitExceededError()
+    // if (salesPerPhotos.length > 4) throw new MaxPhotosLimitExceededError()
 
-    const maxFiles = 4
     let counter = 0
 
     for await (const file of files) {
@@ -54,7 +53,9 @@ export class UpdateSalePicturesUseCase {
       ) {
         throw new EmptyFieldError()
       }
-      if (counter >= maxFiles) {
+
+      if (salesPerPhotos.length + counter > 3) {
+        console.log('Max photos limit exceeded. Throwing error.')
         throw new MaxPhotosLimitExceededError()
       }
 

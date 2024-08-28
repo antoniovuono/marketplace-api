@@ -3,10 +3,8 @@ import { SalePhotosRepository } from '../sale-photos-repository'
 import { prisma } from '@/lib/prisma'
 
 export class PrismaSalesPhotosRepository implements SalePhotosRepository {
-  async addPhotos(data: Prisma.PhotoCreateManyInput[]): Promise<number> {
-    const photos = await prisma.photo.createMany({ data })
-
-    return photos.count
+  async addPhotos(data: Prisma.PhotoCreateManyInput[]): Promise<void> {
+    await prisma.photo.createMany({ data })
   }
 
   async findPhotosBySaleId(saleId: string): Promise<Photo[]> {
