@@ -10,12 +10,14 @@ import { edit } from './edit'
 import { remove } from './remove'
 import { filterActives } from './filter-actives'
 import { updatePictures } from './update-pictures'
+import { listPictures } from './list-pictures'
 
 export async function salesRoutes(app: FastifyInstance) {
   app.addHook('onRequest', jwtVerifyOnRoutes)
 
   app.post('/sales', create)
   app.get('/sales', listByActives)
+  app.get('/sales/:saleId/photos', listPictures)
   app.get('/sales/filter', filterActives)
   app.get('/sales/my-sales', listByUser)
   app.get('/sales/my-sales/actives', listActivesByUser)
