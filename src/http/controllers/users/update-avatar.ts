@@ -1,6 +1,7 @@
 import { EmptyFieldError } from '@/use-cases/errors/empty-field-error'
 import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 import { makeUpdateUserAvatarUseCase } from '@/use-cases/factories/make-update-user-avatar-use-case'
+import { userIdParamsSchema } from '@/utils/validations/params/user-id-params-schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function updateAvatar(
@@ -8,13 +9,15 @@ export async function updateAvatar(
   reply: FastifyReply,
 ) {
   try {
+    const { userId } = await userIdParamsSchema.parse(request.params)
+
     const file = await request.file()
 
     const updateAvatarUserUseCase = makeUpdateUserAvatarUseCase()
 
     await updateAvatarUserUseCase.execute({
       file,
-      userId: request.user.sub,
+      userId,
     })
 
     return reply.status(200).send({ message: 'Avatar updated' })

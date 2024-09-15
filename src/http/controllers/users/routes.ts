@@ -9,5 +9,5 @@ export async function userRoutes(app: FastifyInstance) {
   app.post('/users', create)
   app.post('/users/session', authenticate)
   app.get('/users/me', { onRequest: [jwtVerifyOnRoutes] }, profile)
-  app.patch('/users/avatar', { onRequest: [jwtVerifyOnRoutes] }, updateAvatar)
+  app.patch('/users/:userId/avatar', updateAvatar)
 }
